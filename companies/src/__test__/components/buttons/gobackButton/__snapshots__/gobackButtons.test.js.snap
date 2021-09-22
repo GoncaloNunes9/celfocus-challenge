@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button GoBack renders button to go back 1`] = `
+<button
+  onClick={[Function]}
+>
+  Go Back
+</button>
+`;
