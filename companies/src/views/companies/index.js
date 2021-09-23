@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { CompanyService } from '../../services/companie.service';
 import { history } from '../../helpers/history';
 import Table from '../../components/tables/table';
+import { CompanyService } from '../../services/company.service';
 
 const Companies = () => {
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const getCompanies= () => {
+    setLoading(true)
     setData(null)
     CompanyService.fetch()
       .then((res) => {
         setData(res.data)
+        setLoading(false)
       })
       .catch(() => {
+        setLoading(false)
         setData([])
       }
     )
@@ -20,7 +24,7 @@ const Companies = () => {
 
   useEffect(() => {
     if(!data){
-    getCompanies()
+      getCompanies()
     }
   }, [data])
 
@@ -49,13 +53,14 @@ const Companies = () => {
   return(
     <section>
       <h1>Companies</h1>
-      {data?.length > 0 ? (
-        <Table
-          data={data}
-          columns={columns}
-        />
-      ):
-        <div> No companies available </div>
+      {loading ? <p>Loading...</p> :
+        data?.length > 0 ? (
+          <Table
+            data={data}
+            columns={columns}
+          />
+        ):
+          <div> No companies available </div>
       }
     </section>
   )
